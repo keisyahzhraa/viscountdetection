@@ -1,33 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hasil Crowd Monitoring</title>
-  </head>
-  <body>
-    <h1>Hasil Deteksi Crowd</h1>
+<html lang="id">
 
-    <h3>Video Asli:</h3>
-    <video width="480" controls>
-      <source src="{{ input_video }}" type="video/mp4" />
-    </video>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viscount</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-    <h3>Video Hasil Deteksi:</h3>
-    <video width="480" controls>
-      <source src="{{ output_video }}" type="video/mp4" />
-    </video>
+<body class="font-sans text-gray-900">
 
-    <h3>Statistik Deteksi:</h3>
-    <ul>
-      <li>Total Frame: {{ stats.frames }}</li>
-      <li>Rata-rata orang per frame: {{ stats.avg }}</li>
-      <li>
-        Maksimum orang terdeteksi: {{ stats.max }} (pada frame {{
-        stats.max_frame }})
-      </li>
-    </ul>
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <a href="#" class="flex items-center space-x-2">
+        <img src="{{ url_for('static', filename='img/viscountlogo.png') }}" alt="Viscount Logo" class="h-10 w-auto">
+      </a>
+      <ul class="flex space-x-8 text-sm font-medium">
+        <li><a href="#" class="text-[#0066FF] hover:underline">Home</a></li>
+        <li><a href="#about" class="text-[#0066FF] hover:underline">About</a></li>
+        <li><a href="#tutorial" class="text-[#0066FF] hover:underline">Tutorials</a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- Hero Section -->
+  <section class="h-screen bg-cover bg-center flex items-center justify-center relative"
+    style="background-image: url('{{ url_for('static', filename='img/viscountbg1.png') }}');">
 
-    <a href="/">Kembali ke halaman upload</a>
-  </body>
+    <div class="relative z-10 text-center px-6">
+      <h2 class="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+        <span class="text-[#3957EF]">Viscount</span>
+      </h2>
+      <p class="italic text-lg md:text-xl text-gray-100 mb-8 max-w-2xl mx-auto drop-shadow-md">
+        Record, upload, and watch the insights!
+      </p>
+
+      <!-- Hasil Video Card -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-2xl gap-8 max-w-7xl h-80 w-full mx-auto shadow-lg p-4">
+        <div class="relative bg-cover bg-center rounded-2xl overflow-hidden ">
+
+          <!-- Konten di atas background -->
+          <div class="absolute inset-0 flex mb-2 flex-col items-center justify-center text-white p-4">
+            <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mt-8">Video Result</h3>
+            <!-- Tombol mp4ownload -->
+            <a href="{{ output_video }}" download
+              class="absolute top-1 bg-transparent border-none p- cursor-pointer">
+              <img src="{{ url_for('static', filename='img/downloadmp4.png') }}" alt="downloadmp4"
+                class="w-[100px] h-auto hover:scale-105 transition-transform drop-shadow-md">
+            </a>
+            <video id="resultVideo" class="rounded-lg shadow-lg w-auto mt-4" controls>
+              <source src="{{ output_video }}" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <!-- Statistik deteksi di bawah video card -->
+        <div class="max-w-sm w-full text-left text-black bg-white rounded-2xl p-4 transition">
+          <!-- Tombol back -->
+
+          <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4 mt-4">Analysis Result</h3>
+          <ul class="list-none list-inside space-y-1 font-semibold text-[#1D75FF] mt-4">
+            <li>Total Frame : <span class="text-black">{{ stats.frames }}</span></li>
+            <li>Average People per Frame : <span class="text-black">{{ stats.avg }}</span></li>
+            </li>
+            <li> Maximum People Detected : <span class="text-black">{{ stats.max }} (on frame {{ stats.max_frame
+                }})</span> </li>
+          </ul>
+          <button id="back" type="button" onclick="window.history.back()"
+            class=" absolute bottom-6 right-24 bg-transparent border-none p-2 cursor-pointer">
+            <img id="uploadImg" src="{{ url_for('static', filename='img/backbtn.png') }}" alt="back"
+              class="w-[70px] h-auto hover:scale-105 transition-transform drop-shadow-md ">
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="h-screen bg-cover bg-center flex items-center justify-center relative"
+    style="background-image: url('{{ url_for('static', filename='img/bgabout.png') }}');">
+
+    <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-10">
+
+      <!-- Logo di kiri -->
+      <div class="flex justify-center md:justify-start w-full md:w-1/2">
+        <img src="{{ url_for('static', filename='img/viscountlogo_black.png') }}" alt="Viscount Logo Black"
+          class="w-64 h-auto drop-shadow-md">
+      </div>
+
+      <!-- Teks di kanan -->
+      <div class="text-center md:text-left w-full md:w-1/2">
+        <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4">
+          Know More, Count Better!
+        </h3>
+        <p class="text-gray-900 text-lg leading-relaxed">
+          Viscount is a video upload-based crowd monitoring platform designed to improve public safety
+          and operational efficiency in public spaces, events, and commercial facilities.
+          With a combination of automated video analytics and an intuitive reporting interface,
+          Viscount turns recordings into actionable insights.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Tutorial Section -->
+  <section id="tutorial" class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center px-6 py-16"
+    style="background-image: url('{{ url_for('static', filename='img/bgtutorial.png') }}');">
+
+    <!-- Judul -->
+    <h2 class="text-4xl md:text-5xl font-bold text-[#B134FF] mb-12 text-center drop-shadow-lg">
+      Tutorials
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full mx-auto">
+      <!-- Card 1 -->
+      <div class="relative p-1 flex">
+        <div
+          class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+          <h3 class="text-xl font-bold mb-2 text-[#B134FF]">1. Upload Video</h3>
+          <p class="flex-grow">Select the “Upload Video” menu, click “Select File,” then press Upload.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="relative p-1 flex">
+        <div
+          class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+          <h3 class="text-xl font-bold mb-2 text-[#B134FF]">2. Analysis Process</h3>
+          <p class="flex-grow">The system will analyze crowd density and flow. This process usually takes a few
+            minutes
+            depending on the video duration.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="relative p-1 flex">
+        <div
+          class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+          <h3 class="text-xl font-bold mb-2 text-[#B134FF]">3. View Results</h3>
+          <p class="flex-grow">Open the “Analysis Results” menu to view density visuals, crowd statistics, and
+            summary
+            reports.</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="relative p-1 flex">
+        <div
+          class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+          <h3 class="text-xl font-bold mb-2 text-[#B134FF]">4. Use the Information</h3>
+          <p class="flex-grow">Use the analysis results to evaluate density, manage areas, and improve visitor
+            safety.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+
+
+
+  <!-- Footer -->
+  <footer class="bg-white text-center py-6 text-gray-600 text-sm border-t">
+    © 2025 Viscount. All rights reserved.
+  </footer>
+  <!-- ... semua elemen card dan video di atas ... -->
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const video = document.getElementById("resultVideo");
+
+      if (!video) {
+        console.warn("⚠️ Elemen video tidak ditemukan di halaman.");
+        return;
+      }
+
+      // Log untuk debugging
+      video.addEventListener("canplay", () => {
+        console.log("✅ Video siap diputar:", video.currentSrc);
+      });
+    });
+  </script>
+
+
+</body>
+
 </html>
