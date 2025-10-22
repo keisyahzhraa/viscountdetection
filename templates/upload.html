@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -132,35 +133,20 @@
       <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/" class="flex flex-col items-center gap-6 relative scale-in">
         <div class="relative w-full max-w-md">
           <!-- Kotak Putih -->
-          <input 
-            id="fileNameDisplay" 
-            type="text" 
-            placeholder="No file selected" 
-            readonly 
-            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic shadow-md select-none cursor-default"
-          >
+          <input id="fileNameDisplay" type="text" placeholder="No file selected" readonly
+            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic shadow-md select-none cursor-default">
 
           <!-- Tombol Upload/Process -->
-          <button 
-            id="uploadButton" 
-            type="button"
-            class="absolute right-4 top-1/2 -translate-y-[35%] z-20 bg-transparent border-none p-0 cursor-pointer"
-          >
-            <img 
-              id="uploadImg" 
-              src="{{ url_for('static', filename='img/uploadvideobtn.png') }}" 
-              alt="Upload Video" 
-              class="w-[120px] h-auto hover:scale-105 transition-transform drop-shadow-md"
-            >
+          <button id="uploadButton" type="button"
+            class="absolute right-4 top-1/2 -translate-y-[35%] z-20 bg-transparent border-none p-0 cursor-pointer">
+            <img id="uploadImg" src="{{ url_for('static', filename='img/uploadvideobtn.png') }}" alt="Upload Video"
+              class="w-[120px] h-auto hover:scale-105 transition-transform drop-shadow-md">
           </button>
 
           <!-- Tombol Cancel -->
-          <button 
-            id="cancelButton" 
-            type="button"
-            class="absolute right-[140px] top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 font-bold text-lg hidden z-30 bg-white rounded-full shadow-md w-6 h-6 flex items-center justify-center border border-gray-300 transition-all duration-300"
-            title="Cancel upload"
-          >
+          <button id="cancelButton" type="button"
+            class="absolute right-[140px] top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 font-bold text-lg hidden z-30 bg-white rounded-full shadow-md w-6 h-6 flex items-center justify-center border border-gray-300"
+            title="Cancel upload">
             ✕
           </button>
         </div>
@@ -169,7 +155,6 @@
         <input id="fileInput" name="video" type="file" accept="video/*" class="hidden" required />
       </form>
     </div>
-  </section>
 
   <!-- About Section -->
   <section id="about" class="min-h-screen bg-cover bg-center flex items-center justify-center relative section-padding about-bg">
@@ -189,10 +174,10 @@
             Know More, Count Better!
         </h3>
         <p class="text-gray-900 text-lg leading-relaxed">
-            Viscount is a video upload-based crowd monitoring platform designed to improve public safety 
-            and operational efficiency in public spaces, events, and commercial facilities. 
-            With a combination of automated video analytics and an intuitive reporting interface, 
-            Viscount turns recordings into actionable insights.
+          Viscount is a video upload-based crowd monitoring platform designed to improve public safety
+          and operational efficiency in public spaces, events, and commercial facilities.
+          With a combination of automated video analytics and an intuitive reporting interface,
+          Viscount turns recordings into actionable insights.
         </p>
       </div>
     </div>
@@ -212,7 +197,6 @@
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">1. Upload Video</h3>
         <p class="flex-grow text-gray-700">Select the "Upload Video" menu, click "Select File," then press Upload.</p>
       </div>
-    </div>
 
     <!-- Card 2 -->
     <div class="relative p-1 flex">
@@ -220,7 +204,6 @@
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">2. Analysis Process</h3>
         <p class="flex-grow text-gray-700">The system will analyze crowd density and flow. This process usually takes a few minutes depending on the video duration.</p>
       </div>
-    </div>
 
     <!-- Card 3 -->
     <div class="relative p-1 flex">
@@ -228,7 +211,6 @@
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">3. View Results</h3>
         <p class="flex-grow text-gray-700">Open the "Analysis Results" menu to view density visuals, crowd statistics, and summary reports.</p>
       </div>
-    </div>
 
     <!-- Card 4 -->
     <div class="relative p-1 flex">
@@ -282,6 +264,9 @@
     const cancelBtn = document.getElementById('cancelButton');
     const uploadImg = document.getElementById('uploadImg');
     const form = document.getElementById('uploadForm');
+    const loading = document.getElementById('loadingOverlay');
+
+
 
     uploadBtn.addEventListener('click', () => {
       if (uploadImg.alt === "Upload Video") {
@@ -310,6 +295,10 @@
 
     cancelBtn.addEventListener('click', () => {
       resetUpload();
+    });
+
+    form.addEventListener('submit', () => {
+      loading.classList.remove('hidden');
     });
 
     function resetUpload() {
