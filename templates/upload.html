@@ -79,26 +79,25 @@
   </section>
 
   <!-- Hasil Video -->
+  
 
 
-    <!-- About Section -->
-    <section id="about" 
-            class="h-screen bg-cover bg-center flex items-center justify-center relative"
-            style="background-image: url('{{ url_for('static', filename='img/bgabout.png') }}');">
+   <!-- About Section -->
+  <section id="about" class="h-screen bg-cover bg-center flex items-center justify-center relative"
+    style="background-image: url('{{ url_for('static', filename='img/bgabout.png') }}');">
     
     <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-10">
         
-        <!-- Logo di kiri -->
-        <div class="flex justify-center md:justify-start w-full md:w-1/2">
+      <!-- Logo di kiri -->
+      <div class="flex justify-center md:justify-start w-full md:w-1/2">
         <img 
             src="{{ url_for('static', filename='img/viscountlogo_black.png') }}" 
             alt="Viscount Logo Black" 
-            class="w-64 h-auto drop-shadow-md"
-        >
-        </div>
+            class="w-64 h-auto drop-shadow-md" >
+      </div>
 
-        <!-- Teks di kanan -->
-        <div class="text-center md:text-left w-full md:w-1/2">
+      <!-- Teks di kanan -->
+      <div class="text-center md:text-left w-full md:w-1/2">
         <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4">
             Know More, Count Better!
         </h3>
@@ -108,50 +107,57 @@
             With a combination of automated video analytics and an intuitive reporting interface, 
             Viscount turns recordings into actionable insights.
         </p>
-        </div>
-
+      </div>
     </div>
-    </section>
+  </section>
 
-    <!-- Tutorial Section -->
-<section id="tutorial" 
-         class="h-screen bg-cover bg-center flex flex-col items-center justify-center relative"
-         style="background-image: url('{{ url_for('static', filename='img/bgtutorial.png') }}');">
 
-  <!-- Teks atas -->
-  <div class="text-center mb-12 px-6 max-w-3xl">
-    <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4">
-      Step-by-Step Tutorials
-    </h3>
-    <p class="text-gray-900 text-lg leading-relaxed">
-      Learn how to upload, process, and analyze videos using Viscount. Follow these simple tutorials to get actionable insights from crowd monitoring.
-    </p>
-  </div>
+<!-- Tutorial Section -->
+  <section id="tutorial" class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center px-6 py-16" 
+          style="background-image: url('{{ url_for('static', filename='img/bgtutorial.png') }}');">
 
-  <!-- Grid 4 Card (2x2) -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 px-6 max-w-5xl">
+    <!-- Judul -->
+    <h2 class="text-4xl md:text-5xl font-bold text-[#B134FF] mb-12 text-center drop-shadow-lg">
+      Tutorials
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full mx-auto">
     <!-- Card 1 -->
-    <div class="flex justify-center">
-      <img src="{{ url_for('static', filename='img/tutorial_card1.png') }}" alt="Tutorial 1" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    <div class="relative p-1 flex">
+      <div class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+        <h3 class="text-xl font-bold mb-2 text-[#B134FF]">1. Upload Video</h3>
+        <p class="flex-grow">Select the “Upload Video” menu, click “Select File,” then press Upload.</p>
+      </div>
     </div>
 
     <!-- Card 2 -->
-    <div class="flex justify-center">
-      <img src="{{ url_for('static', filename='img/tutorial_card2.png') }}" alt="Tutorial 2" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    <div class="relative p-1 flex">
+      <div class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+        <h3 class="text-xl font-bold mb-2 text-[#B134FF]">2. Analysis Process</h3>
+        <p class="flex-grow">The system will analyze crowd density and flow. This process usually takes a few minutes depending on the video duration.</p>
+      </div>
     </div>
 
     <!-- Card 3 -->
-    <div class="flex justify-center">
-      <img src="{{ url_for('static', filename='img/tutorial_card3.png') }}" alt="Tutorial 3" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    <div class="relative p-1 flex">
+      <div class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+        <h3 class="text-xl font-bold mb-2 text-[#B134FF]">3. View Results</h3>
+        <p class="flex-grow">Open the “Analysis Results” menu to view density visuals, crowd statistics, and summary reports.</p>
+      </div>
     </div>
 
     <!-- Card 4 -->
-    <div class="flex justify-center">
-      <img src="{{ url_for('static', filename='img/tutorial_card4.png') }}" alt="Tutorial 4" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    <div class="relative p-1 flex">
+      <div class="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(198,232,255,0.8)] hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+        <h3 class="text-xl font-bold mb-2 text-[#B134FF]">4. Use the Information</h3>
+        <p class="flex-grow">Use the analysis results to evaluate density, manage areas, and improve visitor safety.</p>
+      </div>
     </div>
   </div>
 
-</section>
+
+  </section>
+
 
 
   <!-- Footer -->
