@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hasil Crowd Monitoring</title>
+  </head>
+  <body>
+    <h1>Hasil Deteksi Crowd</h1>
+
+    <h3>Video Asli:</h3>
+    <video width="480" controls>
+      <source src="{{ input_video }}" type="video/mp4" />
+    </video>
+
+    <h3>Video Hasil Deteksi:</h3>
+    <video width="480" controls>
+      <source src="{{ output_video }}" type="video/mp4" />
+    </video>
+
+    <h3>Statistik Deteksi:</h3>
+    <ul>
+      <li>Total Frame: {{ stats.frames }}</li>
+      <li>Rata-rata orang per frame: {{ stats.avg }}</li>
+      <li>
+        Maksimum orang terdeteksi: {{ stats.max }} (pada frame {{
+        stats.max_frame }})
+      </li>
+    </ul>
+
+    <a href="/">Kembali ke halaman upload</a>
+  </body>
+</html>

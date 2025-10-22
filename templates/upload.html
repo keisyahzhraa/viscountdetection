@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viscount</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans text-gray-900">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <a href="#" class="flex items-center space-x-2">
+        <img src="{{ url_for('static', filename='img/viscountlogo.png') }}" alt="Viscount Logo" class="h-10 w-auto">
+      </a>
+      <ul class="flex space-x-8 text-sm font-medium">
+        <li><a href="#" class="text-[#0066FF] hover:underline">Home</a></li>
+        <li><a href="#about" class="text-[#0066FF] hover:underline">About</a></li>
+        <li><a href="#tutorial" class="text-[#0066FF] hover:underline">Tutorials</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section 
+    class="h-screen bg-cover bg-center flex items-center justify-center relative"
+    style="background-image: url('{{ url_for('static', filename='img/viscountbg1.png') }}');"
+  >
+    <div class="relative z-10 text-center px-6">
+      <h2 class="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+        <span class="text-[#3957EF]">Viscount</span>
+      </h2>
+      <p class="italic text-lg md:text-xl text-gray-100 mb-8 max-w-2xl mx-auto drop-shadow-md">
+        Record, upload, and watch the insights!
+      </p>
+
+      <!-- Form Upload -->
+      <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/" class="flex flex-col items-center gap-6 relative">
+        <div class="relative w-[420px]">
+          <!-- Kotak Putih -->
+          <input 
+            id="fileNameDisplay" 
+            type="text" 
+            placeholder="No file selected" 
+            readonly 
+            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic shadow-md select-none cursor-default"
+          >
+
+          <!-- Tombol Upload/Process -->
+          <button 
+            id="uploadButton" 
+            type="button"
+            class="absolute right-4 top-1/2 -translate-y-[35%] z-20 bg-transparent border-none p-0 cursor-pointer"
+          >
+            <img 
+              id="uploadImg" 
+              src="{{ url_for('static', filename='img/uploadvideobtn.png') }}" 
+              alt="Upload Video" 
+              class="w-[120px] h-auto hover:scale-105 transition-transform drop-shadow-md"
+            >
+          </button>
+
+          <!-- Tombol Cancel -->
+          <button 
+            id="cancelButton" 
+            type="button"
+            class="absolute right-[140px] top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 font-bold text-lg hidden z-30 bg-white rounded-full shadow-md w-6 h-6 flex items-center justify-center border border-gray-300"
+            title="Cancel upload"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Input File (disembunyikan) -->
+        <input id="fileInput" name="video" type="file" accept="video/*" class="hidden" required />
+      </form>
+    </div>
+  </section>
+
+  <!-- Hasil Video -->
+
+
+    <!-- About Section -->
+    <section id="about" 
+            class="h-screen bg-cover bg-center flex items-center justify-center relative"
+            style="background-image: url('{{ url_for('static', filename='img/bgabout.png') }}');">
+    
+    <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-10">
+        
+        <!-- Logo di kiri -->
+        <div class="flex justify-center md:justify-start w-full md:w-1/2">
+        <img 
+            src="{{ url_for('static', filename='img/viscountlogo_black.png') }}" 
+            alt="Viscount Logo Black" 
+            class="w-64 h-auto drop-shadow-md"
+        >
+        </div>
+
+        <!-- Teks di kanan -->
+        <div class="text-center md:text-left w-full md:w-1/2">
+        <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4">
+            Know More, Count Better!
+        </h3>
+        <p class="text-gray-900 text-lg leading-relaxed">
+            Viscount is a video upload-based crowd monitoring platform designed to improve public safety 
+            and operational efficiency in public spaces, events, and commercial facilities. 
+            With a combination of automated video analytics and an intuitive reporting interface, 
+            Viscount turns recordings into actionable insights.
+        </p>
+        </div>
+
+    </div>
+    </section>
+
+    <!-- Tutorial Section -->
+<section id="tutorial" 
+         class="h-screen bg-cover bg-center flex flex-col items-center justify-center relative"
+         style="background-image: url('{{ url_for('static', filename='img/bgtutorial.png') }}');">
+
+  <!-- Teks atas -->
+  <div class="text-center mb-12 px-6 max-w-3xl">
+    <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4">
+      Step-by-Step Tutorials
+    </h3>
+    <p class="text-gray-900 text-lg leading-relaxed">
+      Learn how to upload, process, and analyze videos using Viscount. Follow these simple tutorials to get actionable insights from crowd monitoring.
+    </p>
+  </div>
+
+  <!-- Grid 4 Card (2x2) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 px-6 max-w-5xl">
+    <!-- Card 1 -->
+    <div class="flex justify-center">
+      <img src="{{ url_for('static', filename='img/tutorial_card1.png') }}" alt="Tutorial 1" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    </div>
+
+    <!-- Card 2 -->
+    <div class="flex justify-center">
+      <img src="{{ url_for('static', filename='img/tutorial_card2.png') }}" alt="Tutorial 2" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    </div>
+
+    <!-- Card 3 -->
+    <div class="flex justify-center">
+      <img src="{{ url_for('static', filename='img/tutorial_card3.png') }}" alt="Tutorial 3" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    </div>
+
+    <!-- Card 4 -->
+    <div class="flex justify-center">
+      <img src="{{ url_for('static', filename='img/tutorial_card4.png') }}" alt="Tutorial 4" class="w-64 h-auto rounded-lg shadow-lg hover:scale-105 transition-transform">
+    </div>
+  </div>
+
+</section>
+
+
+  <!-- Footer -->
+  <footer class="bg-white text-center py-6 text-gray-600 text-sm border-t">
+    © 2025 Viscount. All rights reserved.
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const uploadBtn = document.getElementById('uploadButton');
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const cancelBtn = document.getElementById('cancelButton');
+    const uploadImg = document.getElementById('uploadImg');
+    const form = document.getElementById('uploadForm');
+
+    uploadBtn.addEventListener('click', () => {
+      if (uploadImg.alt === "Upload Video") {
+        fileInput.click();
+      } else if (uploadImg.alt === "Process Video") {
+        // Kirim form ke Flask
+        if (fileInput.files.length > 0) {
+          form.submit();
+        } else {
+          alert("Pilih video terlebih dahulu sebelum memproses.");
+        }
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        const fileName = fileInput.files[0].name;
+        fileNameDisplay.value = fileName;
+        cancelBtn.classList.remove('hidden');
+        uploadImg.src = "{{ url_for('static', filename='img/processvideobtn.png') }}";
+        uploadImg.alt = "Process Video";
+      } else {
+        resetUpload();
+      }
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      resetUpload();
+    });
+
+    function resetUpload() {
+      fileInput.value = '';
+      fileNameDisplay.value = 'No file selected';
+      cancelBtn.classList.add('hidden');
+      uploadImg.src = "{{ url_for('static', filename='img/uploadvideobtn.png') }}";
+      uploadImg.alt = "Upload Video";
+    }
+  </script>
+
+</body>
+</html>
