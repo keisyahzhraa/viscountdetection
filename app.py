@@ -33,8 +33,8 @@ def process_video_yolo(input_path, output_path):
     width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-
-    out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (width, height))
+    fourcc = cv2.VideoWriter_fourcc(*'avc1')
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
     counts = []
 
     for _ in tqdm(range(frame_count), desc="Processing video"):
@@ -86,7 +86,9 @@ def upload_file():
             input_path = os.path.join(app.config['UPLOAD_FOLDER'], input_name)
             file.save(input_path)
 
-            output_name = f"processed_{input_name}"
+# Pastikan nama output valid dan .mp4
+            base_name = os.path.splitext(input_name)
+            output_name = f"processed_{base_name}.mp4"
             output_path = os.path.join(app.config['PROCESSED_FOLDER'], output_name)
 
             # Proses video
