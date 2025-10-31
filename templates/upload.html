@@ -128,13 +128,13 @@
       <p class="italic text-2xl text-gray-100 mb-10 max-w-2xl mx-auto drop-shadow-sm">
         Record, upload, and watch the insights!
       </p>
-
+      <div id="upload-wrapper" class="flex flex-col items-center gap-6 relative scale-in"></div>
       <!-- Form Upload -->
       <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/"
         class="flex flex-col items-center gap-6 relative scale-in">
         <div class="relative w-full max-w-md">
           <input id="fileNameDisplay" type="text" placeholder="No file selected" readonly
-            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic shadow-md select-none cursor-default">
+            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic select-none cursor-default shadow-lg shadow-pink-500/90">
 
           <button id="uploadButton" type="button"
             class="absolute right-4 top-1/2 -translate-y-[35%] z-20 bg-transparent border-none p-0 cursor-pointer">
@@ -150,7 +150,15 @@
         </div>
 
         <input id="fileInput" name="video" type="file" accept="video/*" class="hidden" required />
-      </form>
+    </div>
+    </form>
+    <!-- progress bar -->
+    <div id="progress-bar" class="hidden w-full max-w-md bg-white rounded-full border-10 shadow-inner">
+      <div id="progress-inner"
+        class="bg-indigo-600 h-6 text-white text-center text-sm font-medium p-1 leading-none rounded-full  transition-all duration-300 ease-out"
+        style="width: 0%">0%</div>
+    </div>
+
     </div>
   </section>
 
@@ -185,21 +193,25 @@
     </h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full mx-auto px-6">
-      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
+      <div
+        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">1. Upload Video</h3>
         <p class="text-gray-700">Select the "Upload Video" menu, click "Select File," then press Upload.</p>
       </div>
-      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
+      <div
+        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">2. Analysis Process</h3>
         <p class="text-gray-700">The system will analyze crowd density and flow. This process usually
           takes a few minutes depending on the video duration.</p>
       </div>
-      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
+      <div
+        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">3. View Results</h3>
         <p class="text-gray-700">Open the "Analysis Results" menu to view density visuals, crowd
           statistics, and summary reports.</p>
       </div>
-      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
+      <div
+        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">4. Use the Information</h3>
         <p class="text-gray-700">Use the analysis results to evaluate density, manage areas, and
           improve visitor safety.</p>
@@ -228,6 +240,7 @@
         if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, observerOptions);
+
     document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in')
       .forEach(el => observer.observe(el));
 
@@ -237,17 +250,27 @@
     const cancelBtn = document.getElementById('cancelButton');
     const uploadImg = document.getElementById('uploadImg');
     const form = document.getElementById('uploadForm');
+    const progressBar = document.getElementById('progress-bar');
+    const progressInner = document.getElementById('progress-inner');
 
-    uploadBtn.addEventListener('click', () => {
+
+
+
+    // ---- LOGIKA UPLOAD ----
+    uploadBtn?.addEventListener('click', () => {
       if (uploadImg.alt === "Upload Video") {
         fileInput.click();
       } else if (uploadImg.alt === "Process Video") {
         if (fileInput.files.length > 0) form.submit();
-        else alert("Pilih video terlebih dahulu sebelum memproses.");
+        uploadForm.classList.add('hidden');
+        startFakeProgress();
+      }
+      else {
+        alert("Pilih video terlebih dahulu sebelum memproses.");
       }
     });
 
-    fileInput.addEventListener('change', () => {
+    fileInput?.addEventListener('change', () => {
       if (fileInput.files.length > 0) {
         fileNameDisplay.value = fileInput.files[0].name;
         cancelBtn.classList.remove('hidden');
@@ -256,7 +279,7 @@
       } else resetUpload();
     });
 
-    cancelBtn.addEventListener('click', resetUpload);
+    cancelBtn?.addEventListener('click', resetUpload);
 
     function resetUpload() {
       fileInput.value = '';
@@ -265,7 +288,41 @@
       uploadImg.src = "{{ url_for('static', filename='img/uploadvideobtn.png') }}";
       uploadImg.alt = "Upload Video";
     }
-  </script>
 
+    function startFakeProgress() {
+  // pastikan elemen ada
+  if (!progressBar || !progressInner || !uploadForm) return;
+
+  // sembunyikan form upload dan tampilkan progress bar
+  uploadForm.classList.add('hidden');
+  progressBar.classList.remove('hidden');
+
+  // reset tampilan awal
+  progressInner.style.width = '0%';
+  progressInner.textContent = '0%';
+
+  let progress = 0;
+
+  // jalankan simulasi progress
+  const interval = setInterval(() => {
+    progress += 5;
+    if (progress > 100) progress = 100;
+
+    // update tampilan bar dan teks
+    progressInner.style.width = `${progress}%`;
+    progressInner.textContent = `${progress}%`;
+
+    // jika sudah 100%
+    if (progress >= 100) {
+      clearInterval(interval);
+
+     
+     
+    }
+  }, 300);
+}
+
+  </script>
 </body>
+
 </html>
