@@ -6,7 +6,6 @@ from flask import Flask, request, render_template, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime
 from tqdm import tqdm
-from yolov5 import detect 
 
 # ==== Konfigurasi dasar ====
 UPLOAD_FOLDER = 'static/uploads'
@@ -19,21 +18,31 @@ os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # Batasi 500MB
 
 # ==== Load YOLOv5 Model ====
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-model.conf = 0.4  # confidence threshold
+try:
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+    model.conf = 0.4  # confidence threshold
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def process_video_yolo(input_path, output_path):
+    if model is None:
+        raise Exception("Model not loaded")
+        
     cap = cv2.VideoCapture(input_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
-    width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    fourcc = cv2.VideoWriter_fourcc(*'avc1')
+    
+    # Gunakan codec yang lebih kompatibel
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
     counts = []
 
@@ -63,13 +72,12 @@ def process_video_yolo(input_path, output_path):
 
     stats = {
         'frames': len(counts),
-        'avg': round(np.mean(counts), 2),
-        'max': int(np.max(counts)),
-        'max_frame': int(np.argmax(counts)),
+        'avg': round(np.mean(counts), 2) if counts else 0,
+        'max': int(np.max(counts)) if counts else 0,
+        'max_frame': int(np.argmax(counts)) if counts else 0,
         'data': counts
     }
     return stats
-
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -86,20 +94,27 @@ def upload_file():
             input_path = os.path.join(app.config['UPLOAD_FOLDER'], input_name)
             file.save(input_path)
 
-# Pastikan nama output valid dan .mp4
-            base_name = os.path.splitext(input_name)
+            # Perbaikan nama output
+            base_name = os.path.splitext(input_name)[0]  # Perbaikan di sini
             output_name = f"processed_{base_name}.mp4"
             output_path = os.path.join(app.config['PROCESSED_FOLDER'], output_name)
 
             # Proses video
-            stats = process_video_yolo(input_path, output_path)
-
-            return render_template('result.html',
-                                   input_video=url_for('static', filename=f'uploads/{input_name}'),
-                                   output_video=url_for('static', filename=f'processed/{output_name}'),
-                                   stats=stats)
+            try:
+                stats = process_video_yolo(input_path, output_path)
+                return render_template('result.html',
+                                       input_video=url_for('static', filename=f'uploads/{input_name}'),
+                                       output_video=url_for('static', filename=f'processed/{output_name}'),
+                                       stats=stats)
+            except Exception as e:
+                return f"Error processing video: {str(e)}", 500
+                
     return render_template('upload.html')
 
+@app.errorhandler(413)
+def too_large(e):
+    return "File terlalu besar. Maksimal 500MB.", 413
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
