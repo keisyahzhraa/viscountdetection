@@ -18,22 +18,38 @@ os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # Batasi 500MB
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024
 
 # ==== Load YOLOv5 Model ====
-try:
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-    model.conf = 0.4  # confidence threshold
-except Exception as e:
-    print(f"Error loading model: {e}")
-    model = None
+def load_model():
+    try:
+        # Cara 1: Gunakan ultralytics package langsung
+        from ultralytics import YOLO
+        model = YOLO('yolov5s.pt')
+        print("Model loaded successfully via ultralytics")
+        return model
+    except Exception as e:
+        print(f"Error with ultralytics: {e}")
+        try:
+            # Cara 2: Gunakan torch hub dengan source alternatif
+            model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, force_reload=False)
+            print("Model loaded successfully via torch hub")
+            return model
+        except Exception as e2:
+            print(f"Error with torch hub: {e2}")
+            return None
+
+model = load_model()
+
+if model is None:
+    print("Warning: Model could not be loaded. The app will not function properly.")
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def process_video_yolo(input_path, output_path):
     if model is None:
-        raise Exception("Model not loaded")
+        raise Exception("Model not loaded. Please check the logs for loading errors.")
         
     cap = cv2.VideoCapture(input_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
@@ -41,7 +57,9 @@ def process_video_yolo(input_path, output_path):
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     
-    # Gunakan codec yang lebih kompatibel
+    if frame_count == 0:
+        raise Exception("Tidak dapat membaca frame dari video")
+    
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
     counts = []
@@ -51,8 +69,17 @@ def process_video_yolo(input_path, output_path):
         if not ret:
             break
 
+        # Deteksi objek
         results = model(frame)
-        df = results.pandas().xyxy[0]
+        
+        # Handle different result formats based on how model was loaded
+        if hasattr(results, 'pandas'):
+            # Untuk model torch hub
+            df = results.pandas().xyxy[0]
+        else:
+            # Untuk model ultralytics YOLO
+            df = results[0].pandas().xyxy[0]
+            
         people = df[df['name'] == 'person']
 
         # Draw bounding boxes
@@ -94,12 +121,10 @@ def upload_file():
             input_path = os.path.join(app.config['UPLOAD_FOLDER'], input_name)
             file.save(input_path)
 
-            # Perbaikan nama output
-            base_name = os.path.splitext(input_name)[0]  # Perbaikan di sini
+            base_name = os.path.splitext(input_name)[0]
             output_name = f"processed_{base_name}.mp4"
             output_path = os.path.join(app.config['PROCESSED_FOLDER'], output_name)
 
-            # Proses video
             try:
                 stats = process_video_yolo(input_path, output_path)
                 return render_template('result.html',
@@ -107,6 +132,9 @@ def upload_file():
                                        output_video=url_for('static', filename=f'processed/{output_name}'),
                                        stats=stats)
             except Exception as e:
+                # Hapus file input jika error
+                if os.path.exists(input_path):
+                    os.remove(input_path)
                 return f"Error processing video: {str(e)}", 500
                 
     return render_template('upload.html')
