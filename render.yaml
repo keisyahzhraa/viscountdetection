@@ -1,10 +1,12 @@
 services:
   - type: web
-    name: flask-yolov5-app
+    name: people-counter-app
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt --timeout=300
     startCommand: gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
-        value: 3.9.0
+        value: 3.9.18
