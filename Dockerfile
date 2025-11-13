@@ -12,10 +12,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Install PyTorch (precompiled wheels)
+# Install PyTorch wheels (CEPAT)
 RUN pip install --upgrade pip && \
     pip install torch==2.0.1+cpu torchvision==0.15.2+cpu \
-        --index-url https://download.pytorch.org/whl/cpu
+      --index-url https://download.pytorch.org/whl/cpu
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
