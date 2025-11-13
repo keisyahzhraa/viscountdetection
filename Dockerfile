@@ -1,7 +1,8 @@
-FROM pytorch/pytorch:2.3.1-cpu
+FROM python:3.9-slim
 
 ENV PYTHONUNBUFFERED=1
 
+# Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     ffmpeg \
@@ -12,12 +13,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-COPY requirements.txt .
-
+# Install PyTorch (precompiled wheels)
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install torch==2.0.1+cpu torchvision==0.15.2+cpu \
+        --index-url https://download.pytorch.org/whl/cpu
 
-# Clone YOLOv5 (menghindari torch.hub)
+# Install app requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Clone YOLOv5 and install dependencies
 RUN git clone https://github.com/ultralytics/yolov5 && \
     pip install --no-cache-dir -r yolov5/requirements.txt
 
