@@ -1,7 +1,9 @@
-FROM python:3.9-slim
+# Gunakan PyTorch prebuilt image agar build sangat cepat
+FROM pytorch/pytorch:2.8.0-cpu
 
 ENV PYTHONUNBUFFERED=1
 
+# Install dependencies for OpenCV
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     libsm6 \
@@ -12,8 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Install ONLY light requirements
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
