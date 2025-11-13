@@ -1,12 +1,13 @@
 services:
   - type: web
     name: people-counter-app
-    env: python
+    env: docker
     plan: free
-    buildCommand: |
-      pip install --upgrade pip
-      pip install -r requirements.txt --timeout=300
-    startCommand: gunicorn app:app
+    dockerfilePath: ./Dockerfile
+    disk:
+      name: storage
+      mountPath: /app/static
+      sizeGB: 5
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.18
