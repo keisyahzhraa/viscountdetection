@@ -1,7 +1,6 @@
 import os
 import cv2
 import torch
-from yolov5 import YOLO
 import numpy as np
 from flask import Flask, request, render_template, url_for
 from werkzeug.utils import secure_filename
@@ -23,8 +22,8 @@ app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # Batasi 500MB
 
 # ==== Load YOLOv5 Model ====
 try:
-    model = YOLO('yolov5s.pt')
-    model.conf = 0.4  
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+    model.conf = 0.4  # confidence threshold
 except Exception as e:
     print(f"Error loading model: {e}")
     model = None
