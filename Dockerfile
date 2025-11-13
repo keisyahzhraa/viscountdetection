@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.8.0-cpu
+FROM pytorch/pytorch:2.3.1-cpu
 
 ENV PYTHONUNBUFFERED=1
 
@@ -17,9 +17,9 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# --- Clone YOLOv5 (menghindari torch.hub) ---
-RUN git clone https://github.com/ultralytics/yolov5
-RUN pip install --no-cache-dir -r yolov5/requirements.txt
+# Clone YOLOv5 (menghindari torch.hub)
+RUN git clone https://github.com/ultralytics/yolov5 && \
+    pip install --no-cache-dir -r yolov5/requirements.txt
 
 COPY . .
 
