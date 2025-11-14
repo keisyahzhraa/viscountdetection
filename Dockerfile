@@ -3,29 +3,25 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    ffmpeg \
-    libsm6 \
-    libxext6 \
-    libgl1 \
+    git ffmpeg libsm6 libxext6 libgl1 \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install PyTorch wheels (CEPAT)
-RUN pip install --upgrade pip && \
-    pip install torch==2.0.1+cpu torchvision==0.15.2+cpu \
-      --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --upgrade pip
+
+# TORCH RINGAN
+RUN pip install torch==1.8.2+cpu torchvision==0.9.2+cpu \
+    -f https://download.pytorch.org/whl/torch_stable.html
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Clone YOLOv5
-RUN git clone https://github.com/ultralytics/yolov5 && \
-    pip install --no-cache-dir -r yolov5/requirements.txt
+RUN git clone https://github.com/ultralytics/yolov5
+RUN pip install -r yolov5/requirements.txt
 
 COPY . .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "app:app"]
+CMD ["gunicorn", "-w", "1", "-t", "300", "app:app"]
