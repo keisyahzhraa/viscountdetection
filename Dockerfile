@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.8-slim
 
 ENV PYTHONUNBUFFERED=1
 
@@ -10,13 +10,14 @@ WORKDIR /app
 
 RUN pip install --upgrade pip
 
-# TORCH RINGAN
-RUN pip install torch==1.8.2+cpu torchvision==0.9.2+cpu \
+# TORCH PALING RINGAN YANG SUPPORT PYTHON 3.8
+RUN pip install torch==1.8.1+cpu torchvision==0.9.1+cpu \
     -f https://download.pytorch.org/whl/torch_stable.html
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# YOLOv5
 RUN git clone https://github.com/ultralytics/yolov5
 RUN pip install -r yolov5/requirements.txt
 
