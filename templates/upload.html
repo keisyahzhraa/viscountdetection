@@ -19,58 +19,6 @@
       padding: 5rem 1.5rem;
     }
 
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .slide-in-left {
-      opacity: 0;
-      transform: translateX(-50px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .slide-in-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .slide-in-right {
-      opacity: 0;
-      transform: translateX(50px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .slide-in-right.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .scale-in {
-      opacity: 0;
-      transform: scale(0.9);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .scale-in.visible {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .footer-text {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-      display: inline-block;
-    }
-
     .hero-bg {
       background-image: url("{{ url_for('static', filename='img/viscountbg1.png') }}");
     }
@@ -92,58 +40,58 @@
 <body class="text-gray-900">
 
   <!-- Navbar -->
-  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent backdrop-blur-sm">
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-sm transition-all duration-300">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-      <a href="#" class="flex items-center space-x-2">
-        <img src="{{ url_for('static', filename='img/v_logo.png') }}" alt="Viscount Logo" class="h-10 w-auto">
+      <a class="flex items-center space-x-2">
+        <img src="{{ url_for('static', filename='img/v_logo.png') }}" class="h-10 w-auto">
       </a>
       <ul class="flex space-x-8 text-base font-medium">
-        <li><a href="#" class="text-[#0066FF] hover:underline transition-all duration-300">Home</a></li>
-        <li><a href="#about" class="text-[#0066FF] hover:underline transition-all duration-300">About</a></li>
-        <li><a href="#tutorial" class="text-[#0066FF] hover:underline transition-all duration-300">Tutorials</a></li>
+        <li><a href="/" class="text-[#0066FF] hover:underline">Home</a></li>
+        <li><a href="#about" class="text-[#0066FF] hover:underline">About</a></li>
+        <li><a href="#tutorial" class="text-[#0066FF] hover:underline">Tutorials</a></li>
       </ul>
     </div>
   </nav>
 
   <script>
-    window.addEventListener('scroll', function () {
-      const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
       if (window.scrollY > 50) {
-        navbar.classList.add('bg-white/60', 'backdrop-blur-md', 'shadow-md');
-        navbar.classList.remove('bg-transparent', 'backdrop-blur-sm');
+        nav.classList.add('bg-white/60', 'backdrop-blur-md', 'shadow-md');
       } else {
-        navbar.classList.add('bg-transparent', 'backdrop-blur-sm');
-        navbar.classList.remove('bg-white/60', 'backdrop-blur-md', 'shadow-md');
+        nav.classList.remove('bg-white/60', 'backdrop-blur-md', 'shadow-md');
       }
     });
   </script>
 
   <!-- HERO SECTION -->
-  <section class="min-h-screen bg-cover bg-center flex items-center justify-center relative section-padding hero-bg">
-    <div class="relative z-10 text-center px-6 fade-in">
-      <h2 class="drop-shadow-lg text-8xl md:text-6xl font-bold text-white mb-6">
+  <section class="min-h-screen bg-cover bg-center flex items-center justify-center hero-bg section-padding">
+    <div class="text-center px-6 fade-in">
+
+      <h2 class="text-8xl font-bold text-white mb-6 drop-shadow-lg">
         <span class="text-[#3957EF]">VISCOUNT</span>
       </h2>
-      <p class="italic text-2xl text-gray-100 mb-10 max-w-2xl mx-auto drop-shadow-sm">
+
+      <p class="italic text-2xl text-gray-100 mb-10 max-w-2xl mx-auto">
         Record, upload, and watch the insights!
       </p>
 
       <!-- Form Upload -->
-      <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/"
-        class="flex flex-col items-center gap-6 relative scale-in">
+      <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/" 
+            class="flex flex-col items-center gap-6">
+
         <div class="relative w-full max-w-md">
-          <input id="fileNameDisplay" type="text" placeholder="No file selected" readonly
-            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic shadow-lg">
+          <input id="fileNameDisplay" readonly placeholder="No file selected"
+            class="w-full px-4 py-3 pr-28 rounded-lg border bg-white text-gray-700 shadow-lg">
 
           <button id="uploadButton" type="button"
-            class="absolute right-4 top-1/2 -translate-y-[35%] z-20 bg-transparent border-none p-0 cursor-pointer">
-            <img id="uploadImg" src="{{ url_for('static', filename='img/uploadvideobtn.png') }}" alt="Upload Video"
-              class="w-[120px] h-auto hover:scale-105 transition-transform drop-shadow-md">
+            class="absolute right-4 top-1/2 -translate-y-1/2">
+            <img id="uploadImg" src="{{ url_for('static', filename='img/uploadvideobtn.png') }}"
+              alt="Upload Video" class="w-[120px] hover:scale-105 transition-transform">
           </button>
 
           <button id="cancelButton" type="button"
-            class="absolute right-[140px] top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 font-bold text-lg hidden z-30 bg-white rounded-full shadow-md w-6 h-6 flex items-center justify-center border border-gray-300"
-            title="Cancel upload">
+            class="absolute right-[140px] top-1/2 -translate-y-1/2 hidden bg-white rounded-full shadow-md w-6 h-6 flex items-center justify-center border text-gray-500 hover:text-red-500">
             ✕
           </button>
         </div>
@@ -151,27 +99,34 @@
         <input id="fileInput" name="video" type="file" accept="video/*" class="hidden" required />
       </form>
 
-      <!-- Progress bar -->
+      <!-- PROGRESS BAR -->
       <div id="progress-bar" class="hidden w-full max-w-md bg-white rounded-full shadow-inner mt-6">
         <div id="progress-inner"
-          class="bg-indigo-600 h-6 text-white text-center text-sm font-medium p-1 leading-none rounded-full transition-all duration-300 ease-out"
-          style="width: 0%">0%</div>
+          class="bg-indigo-600 h-6 text-white text-sm leading-none rounded-full text-center"
+          style="width:0%">0%</div>
       </div>
 
     </div>
   </section>
 
-  <!-- ABOUT SECTION -->
-  <section id="about" class="min-h-screen bg-cover bg-center section-padding about-bg"></section>
+  <!-- ABOUT -->
+  <section id="about" class="min-h-screen bg-cover bg-center about-bg section-padding"></section>
 
-  <!-- TUTORIAL SECTION -->
-  <section id="tutorial" class="min-h-screen bg-cover bg-center section-padding tutorial-bg"></section>
+  <!-- TUTORIAL -->
+  <section id="tutorial" class="min-h-screen bg-cover bg-center tutorial-bg section-padding"></section>
 
   <!-- FOOTER -->
-  <footer class="text-center text-white py-12 bg-cover bg-center section-padding footer-bg"></footer>
+  <footer class="text-center text-white py-12 bg-cover bg-center footer-bg section-padding"></footer>
 
-  <!-- SCRIPT -->
+  <!-- ============================================================
+       JAVASCRIPT - FIXED (NO VS CODE ERRORS)
+       ============================================================ -->
+  <script id="jinjaData" type="text/template">
+    {% if job_id %}{{ job_id }}{% endif %}
+  </script>
+
   <script>
+    const jobId = document.getElementById("jinjaData").innerHTML.trim();
     const uploadBtn = document.getElementById('uploadButton');
     const fileInput = document.getElementById('fileInput');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
@@ -181,32 +136,28 @@
     const progressBar = document.getElementById('progress-bar');
     const progressInner = document.getElementById('progress-inner');
 
-    // ==== JOB PROGRESS FROM SERVER ====
-    {% if job_id %}
-    setInterval(() => {
-      fetch("/progress/{{ job_id }}")
-        .then(r => r.json())
-        .then(data => {
-          if (data.status === "done") {
-            window.location.href = "/result/{{ job_id }}";
-          }
-        });
-    }, 3000);
-    {% endif %}
+    // ========== CHECK PROGRESS JOB ==========
+    if (jobId !== "") {
+      setInterval(() => {
+        fetch("/progress/" + jobId)
+          .then(r => r.json())
+          .then(data => {
+            if (data.status === "done") {
+              window.location.href = "/result/" + jobId;
+            }
+          });
+      }, 3000);
+    }
 
-    // ==== LOGIKA UPLOAD ====
+    // ========== LOGIKA UPLOAD ==========
     uploadBtn.addEventListener('click', () => {
       if (uploadImg.alt === "Upload Video") {
         fileInput.click();
       } else if (uploadImg.alt === "Process Video") {
-
         if (fileInput.files.length > 0) {
           startFakeProgress();
-          setTimeout(() => form.submit(), 600); // delay sebentar agar loading muncul dulu
+          setTimeout(() => form.submit(), 600);
         }
-
-      } else {
-        alert("Pilih video terlebih dahulu sebelum memproses.");
       }
     });
 
@@ -229,24 +180,22 @@
       uploadImg.alt = "Upload Video";
     }
 
-    // ==== Fake Progress ====
     function startFakeProgress() {
-      uploadForm.classList.add('hidden');
+      form.classList.add('hidden');
       progressBar.classList.remove('hidden');
-
-      progressInner.style.width = "0%";
-      progressInner.textContent = "0%";
 
       let p = 0;
       const interval = setInterval(() => {
-        if (p >= 100) { clearInterval(interval); return; }
+        if (p >= 100) {
+          clearInterval(interval);
+          return;
+        }
         p += 3;
-        progressInner.style.width = `${p}%`;
-        progressInner.textContent = `${p}%`;
+        progressInner.style.width = p + "%";
+        progressInner.textContent = p + "%";
       }, 120);
     }
   </script>
 
 </body>
-
 </html>

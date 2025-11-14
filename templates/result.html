@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/gbr.png') }}">
+
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -71,21 +72,10 @@
       display: inline-block;
     }
 
-    /* Backgrounds */
+    /* Background tanpa Jinja supaya tidak error di VSCode */
     .hero-bg {
-      background-image: url("{{ url_for('static', filename='img/viscountbg1.png') }}");
-    }
-
-    .about-bg {
-      background-image: url("{{ url_for('static', filename='img/bgabout.png') }}");
-    }
-
-    .tutorial-bg {
-      background-image: url("{{ url_for('static', filename='img/bgtutorial.png') }}");
-    }
-
-    .footer-bg {
-      background-image: url("{{ url_for('static', filename='img/footer.png') }}");
+      background-size: cover;
+      background-position: center;
     }
   </style>
 </head>
@@ -95,13 +85,13 @@
   <!-- Navbar -->
   <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent backdrop-blur-sm">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-      <a href="#" class="flex items-center space-x-2">
+      <a href="/" class="flex items-center space-x-2">
         <img src="{{ url_for('static', filename='img/v_logo.png') }}" alt="Viscount Logo" class="h-10 w-auto">
       </a>
       <ul class="flex space-x-8 text-base font-medium">
-        <li><a href="#" class="text-[#0066FF] hover:underline transition-all duration-300">Home</a></li>
-        <li><a href="#about" class="text-[#0066FF] hover:underline transition-all duration-300">About</a></li>
-        <li><a href="#tutorial" class="text-[#0066FF] hover:underline transition-all duration-300">Tutorials</a></li>
+        <li><a href="/" class="text-[#0066FF] hover:underline transition-all duration-300">Home</a></li>
+        <li><a href="/#about" class="text-[#0066FF] hover:underline transition-all duration-300">About</a></li>
+        <li><a href="/#tutorial" class="text-[#0066FF] hover:underline transition-all duration-300">Tutorials</a></li>
       </ul>
     </div>
   </nav>
@@ -120,9 +110,11 @@
     });
   </script>
 
-  <!-- HERO SECTION (tidak diubah) -->
-  <section class="h-screen bg-cover bg-center flex items-center justify-center relative"
-    style="background-image: url('{{ url_for('static', filename='img/viscountbg1.png') }}');">
+  <!-- HERO SECTION -->
+  <section
+    class="h-screen bg-cover bg-center flex items-center justify-center relative hero-bg"
+    style="background-image: url({{ url_for('static', filename='img/viscountbg1.png') }});">
+
     <div class="relative z-10 text-center px-6">
       <h2 class="text-5xl md:text-6xl font-bold text-white mt-6 drop-shadow-lg">
         <span class="text-[#3957EF]">Viscount</span>
@@ -132,56 +124,52 @@
       </p>
 
       <!-- Hasil Video Card -->
-      <div>
-        <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-2xl gap-6 max-w-5xl w-auto mx-auto shadow-lg p-6">
-          <!-- Kartu Hasil Video -->
-          <div class="flex flex-col items-center justify-center rounded-2xl overflow-hidden">
-            <h3 class="text-2xl md:text-4xl font-bold text-[#1D75FF] mb-4">Video Result</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-2xl gap-6 max-w-5xl w-auto mx-auto shadow-lg p-6">
 
-            <video id="resultVideo" class="rounded-lg shadow-lg w-auto max-w-xl max-h-40 mb-4" controls>
-              <source src="{{ output_video }}" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+        <!-- Kartu Hasil Video -->
+        <div class="flex flex-col items-center justify-center rounded-2xl overflow-hidden">
+          <h3 class="text-2xl md:text-4xl font-bold text-[#1D75FF] mb-4">Video Result</h3>
 
-            <a href="{{ output_video }}" download
-              class="flex items-center justify-center hover:scale-105 transition-transform">
-              <img src="{{ url_for('static', filename='img/downloadmp4.png') }}" alt="Download MP4"
-                class="w-[100px] h-auto drop-shadow-md">
-            </a>
-          </div>
+          <video id="resultVideo" class="rounded-lg shadow-lg w-auto max-w-xl max-h-40 mb-4" controls>
+            <source src="{{ output_video }}" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
 
-          <!-- Kartu Statistik -->
-          <div class="flex flex-col items-start text-left bg-white rounded-2xl p-6">
-            <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4">Analysis Result</h3>
-            <ul class="list-none space-y-2 font-semibold text-[#1D75FF]">
-              <li>Total Frame: <span class="text-black">{{ stats.frames }}</span></li>
-              <li>Average People per Frame: <span class="text-black">{{ stats.avg }}</span></li>
-              <li>Maximum People Detected: <span class="text-black">{{ stats.max }} (on frame {{ stats.max_frame
-                  }})</span></li>
-            </ul>
-
-            <div class="flex justify-end w-full mt-16">
-              <button id="back" type="button" onclick="window.history.back()"
-                class="bg-transparent border-none cursor-pointer">
-                <img src="{{ url_for('static', filename='img/backbtn.png') }}" alt="back"
-                  class="w-[70px] h-auto hover:scale-105 transition-transform drop-shadow-md">
-              </button>
-            </div>
-          </div>
-
+          <a href="{{ output_video }}" download
+            class="flex items-center justify-center hover:scale-105 transition-transform">
+            <img src="{{ url_for('static', filename='img/downloadmp4.png') }}" alt="Download MP4"
+              class="w-[100px] h-auto drop-shadow-md">
+          </a>
         </div>
 
+        <!-- Kartu Statistik -->
+        <div class="flex flex-col items-start text-left bg-white rounded-2xl p-6">
+          <h3 class="text-3xl md:text-4xl font-bold text-[#1D75FF] mb-4">Analysis Result</h3>
+          <ul class="list-none space-y-2 font-semibold text-[#1D75FF]">
+            <li>Total Frame: <span class="text-black">{{ stats.frames }}</span></li>
+            <li>Average People per Frame: <span class="text-black">{{ stats.avg }}</span></li>
+            <li>Maximum People Detected:
+              <span class="text-black">{{ stats.max }} (on frame {{ stats.max_frame }})</span>
+            </li>
+          </ul>
+
+          <div class="flex justify-end w-full mt-16">
+            <button id="back" type="button" onclick="window.location='/'"
+              class="bg-transparent border-none cursor-pointer">
+              <img src="{{ url_for('static', filename='img/backbtn.png') }}" alt="back"
+                class="w-[70px] h-auto hover:scale-105 transition-transform drop-shadow-md">
+            </button>
+          </div>
+        </div>
 
       </div>
+    </div>
   </section>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const video = document.getElementById("resultVideo");
-      if (!video) {
-        console.warn("⚠️ Elemen video tidak ditemukan di halaman.");
-        return;
-      }
+      if (!video) return;
       video.addEventListener("canplay", () => {
         console.log("✅ Video siap diputar:", video.currentSrc);
       });
