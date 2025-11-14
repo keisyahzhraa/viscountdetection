@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/gbr.png') }}">
 
-
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -128,13 +127,13 @@
       <p class="italic text-2xl text-gray-100 mb-10 max-w-2xl mx-auto drop-shadow-sm">
         Record, upload, and watch the insights!
       </p>
-      <div id="upload-wrapper" class="flex flex-col items-center gap-6 relative scale-in"></div>
+
       <!-- Form Upload -->
       <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/"
         class="flex flex-col items-center gap-6 relative scale-in">
         <div class="relative w-full max-w-md">
           <input id="fileNameDisplay" type="text" placeholder="No file selected" readonly
-            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic select-none cursor-default shadow-lg shadow-pink-500/90">
+            class="w-full px-4 py-3 pr-28 rounded-lg border border-gray-300 bg-white text-gray-700 italic shadow-lg">
 
           <button id="uploadButton" type="button"
             class="absolute right-4 top-1/2 -translate-y-[35%] z-20 bg-transparent border-none p-0 cursor-pointer">
@@ -150,100 +149,29 @@
         </div>
 
         <input id="fileInput" name="video" type="file" accept="video/*" class="hidden" required />
-    </div>
-    </form>
-    <!-- progress bar -->
-    <div id="progress-bar" class="hidden w-full max-w-md bg-white rounded-full border-10 shadow-inner">
-      <div id="progress-inner"
-        class="bg-indigo-600 h-6 text-white text-center text-sm font-medium p-1 leading-none rounded-full  transition-all duration-300 ease-out"
-        style="width: 0%">0%</div>
-    </div>
+      </form>
+
+      <!-- Progress bar -->
+      <div id="progress-bar" class="hidden w-full max-w-md bg-white rounded-full shadow-inner mt-6">
+        <div id="progress-inner"
+          class="bg-indigo-600 h-6 text-white text-center text-sm font-medium p-1 leading-none rounded-full transition-all duration-300 ease-out"
+          style="width: 0%">0%</div>
+      </div>
 
     </div>
   </section>
 
   <!-- ABOUT SECTION -->
-  <section id="about"
-    class="min-h-screen bg-cover bg-center flex items-center justify-center relative section-padding about-bg">
-    <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-12">
-      <div class="flex justify-center lg:justify-start w-full lg:w-2/5 slide-in-left">
-        <img src="{{ url_for('static', filename='img/gbr.png') }}" alt="Viscount Logo"
-          class="w-80 lg:w-96 h-auto drop-shadow-lg transition-transform duration-500 hover:scale-105">
-      </div>
-
-      <div class="text-center md:text-left w-full md:w-1/2 slide-in-right">
-        <h3 class="drop-shadow-lg text-3xl md:text-4xl font-bold text-[#1D75FF] mb-6">
-          Know More, Count Better!
-        </h3>
-        <p class="text-gray-900 text-lg leading-relaxed">
-          Viscount is a video upload-based crowd monitoring platform designed to improve public safety
-          and operational efficiency in public spaces, events, and commercial facilities.
-          With a combination of automated video analytics and an intuitive reporting interface,
-          Viscount turns recordings into actionable insights.
-        </p>
-      </div>
-    </div>
-  </section>
+  <section id="about" class="min-h-screen bg-cover bg-center section-padding about-bg"></section>
 
   <!-- TUTORIAL SECTION -->
-  <section id="tutorial"
-    class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center section-padding tutorial-bg">
-    <h2 class="text-4xl md:text-5xl font-bold text-[#B134FF] mb-16 text-center drop-shadow-lg fade-in">
-      Tutorials
-    </h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full mx-auto px-6">
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
-        <h3 class="text-xl font-bold mb-4 text-[#B134FF]">1. Upload Video</h3>
-        <p class="text-gray-700">Select the "Upload Video" menu, click "Select File," then press Upload.</p>
-      </div>
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
-        <h3 class="text-xl font-bold mb-4 text-[#B134FF]">2. Analysis Process</h3>
-        <p class="text-gray-700">The system will analyze crowd density and flow. This process usually
-          takes a few minutes depending on the video duration.</p>
-      </div>
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
-        <h3 class="text-xl font-bold mb-4 text-[#B134FF]">3. View Results</h3>
-        <p class="text-gray-700">Open the "Analysis Results" menu to view density visuals, crowd
-          statistics, and summary reports.</p>
-      </div>
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
-        <h3 class="text-xl font-bold mb-4 text-[#B134FF]">4. Use the Information</h3>
-        <p class="text-gray-700">Use the analysis results to evaluate density, manage areas, and
-          improve visitor safety.</p>
-      </div>
-    </div>
-  </section>
+  <section id="tutorial" class="min-h-screen bg-cover bg-center section-padding tutorial-bg"></section>
 
   <!-- FOOTER -->
-  <footer class="text-center text-white py-12 bg-cover bg-center border-t border-gray-300 section-padding footer-bg">
-    <h2 class="text-5xl font-extrabold tracking-wide mb-6 fade-in">VISCOUNT</h2>
-    <p class="mx-auto text-lg text-gray-100 mb-6 fade-in footer-text">
-      Empowering public safety and operational efficiency through intelligent video analytics.
-    </p>
-    <p class="text-sm text-gray-200 mt-8 border-t border-gray-400 pt-6 fade-in">
-      © 2025 Viscount. Developed by <span class="font-semibold">Faqih</span>,
-      <span class="font-semibold">Carissa</span>, and
-      <span class="font-semibold">Keisyah</span>.
-    </p>
-  </footer>
+  <footer class="text-center text-white py-12 bg-cover bg-center section-padding footer-bg"></footer>
 
   <!-- SCRIPT -->
   <script>
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in')
-      .forEach(el => observer.observe(el));
-
     const uploadBtn = document.getElementById('uploadButton');
     const fileInput = document.getElementById('fileInput');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
@@ -253,24 +181,36 @@
     const progressBar = document.getElementById('progress-bar');
     const progressInner = document.getElementById('progress-inner');
 
+    // ==== JOB PROGRESS FROM SERVER ====
+    {% if job_id %}
+    setInterval(() => {
+      fetch("/progress/{{ job_id }}")
+        .then(r => r.json())
+        .then(data => {
+          if (data.status === "done") {
+            window.location.href = "/result/{{ job_id }}";
+          }
+        });
+    }, 3000);
+    {% endif %}
 
-
-
-    // ---- LOGIKA UPLOAD ----
-    uploadBtn?.addEventListener('click', () => {
+    // ==== LOGIKA UPLOAD ====
+    uploadBtn.addEventListener('click', () => {
       if (uploadImg.alt === "Upload Video") {
         fileInput.click();
       } else if (uploadImg.alt === "Process Video") {
-        if (fileInput.files.length > 0) form.submit();
-        uploadForm.classList.add('hidden');
-        startFakeProgress();
-      }
-      else {
+
+        if (fileInput.files.length > 0) {
+          startFakeProgress();
+          setTimeout(() => form.submit(), 600); // delay sebentar agar loading muncul dulu
+        }
+
+      } else {
         alert("Pilih video terlebih dahulu sebelum memproses.");
       }
     });
 
-    fileInput?.addEventListener('change', () => {
+    fileInput.addEventListener('change', () => {
       if (fileInput.files.length > 0) {
         fileNameDisplay.value = fileInput.files[0].name;
         cancelBtn.classList.remove('hidden');
@@ -279,7 +219,7 @@
       } else resetUpload();
     });
 
-    cancelBtn?.addEventListener('click', resetUpload);
+    cancelBtn.addEventListener('click', resetUpload);
 
     function resetUpload() {
       fileInput.value = '';
@@ -289,40 +229,24 @@
       uploadImg.alt = "Upload Video";
     }
 
+    // ==== Fake Progress ====
     function startFakeProgress() {
-  // pastikan elemen ada
-  if (!progressBar || !progressInner || !uploadForm) return;
+      uploadForm.classList.add('hidden');
+      progressBar.classList.remove('hidden');
 
-  // sembunyikan form upload dan tampilkan progress bar
-  uploadForm.classList.add('hidden');
-  progressBar.classList.remove('hidden');
+      progressInner.style.width = "0%";
+      progressInner.textContent = "0%";
 
-  // reset tampilan awal
-  progressInner.style.width = '0%';
-  progressInner.textContent = '0%';
-
-  let progress = 0;
-
-  // jalankan simulasi progress
-  const interval = setInterval(() => {
-    progress += 5;
-    if (progress > 100) progress = 100;
-
-    // update tampilan bar dan teks
-    progressInner.style.width = `${progress}%`;
-    progressInner.textContent = `${progress}%`;
-
-    // jika sudah 100%
-    if (progress >= 100) {
-      clearInterval(interval);
-
-     
-     
+      let p = 0;
+      const interval = setInterval(() => {
+        if (p >= 100) { clearInterval(interval); return; }
+        p += 3;
+        progressInner.style.width = `${p}%`;
+        progressInner.textContent = `${p}%`;
+      }, 120);
     }
-  }, 300);
-}
-
   </script>
+
 </body>
 
 </html>
