@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -72,26 +71,37 @@
 
     .hero-bg {
       background-image: url("{{ url_for('static', filename='img/viscountbg1.png') }}");
+      background-size: cover;
+      background-position: center;
     }
 
     .about-bg {
       background-image: url("{{ url_for('static', filename='img/bgabout.png') }}");
+      background-size: cover;
+      background-position: center;
     }
 
     .tutorial-bg {
       background-image: url("{{ url_for('static', filename='img/bgtutorial.png') }}");
+      background-size: cover;
+      background-position: center;
     }
 
     .footer-bg {
       background-image: url("{{ url_for('static', filename='img/footer.png') }}");
+      background-size: cover;
+      background-position: center;
     }
   </style>
 </head>
 
-<body class="text-gray-900"> <!-- Navbar -->
+<body class="text-gray-900">
+  <!-- Navbar -->
   <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-sm transition-all duration-300">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4"> <a class="flex items-center space-x-2">
-        <img src="{{ url_for('static', filename='img/v_logo.png') }}" class="h-10 w-auto"> </a>
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <a href="/" class="flex items-center space-x-2">
+        <img src="{{ url_for('static', filename='img/v_logo.png') }}" class="h-10 w-auto" alt="Viscount Logo">
+      </a>
       <ul class="flex space-x-8 text-base font-medium">
         <li><a href="/" class="text-[#0066FF] hover:underline">Home</a></li>
         <li><a href="#about" class="text-[#0066FF] hover:underline">About</a></li>
@@ -99,49 +109,41 @@
       </ul>
     </div>
   </nav>
-  <script> 
-    window.addEventListener('scroll', function () {
-        const navbar = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-          navbar.classList.add('bg-white/60', 'backdrop-blur-md', 'shadow-md');
-          navbar.classList.remove('bg-transparent', 'backdrop-blur-sm');
-        } else {
-          navbar.classList.add('bg-transparent', 'backdrop-blur-sm');
-          navbar.classList.remove('bg-white/60', 'backdrop-blur-md', 'shadow-md');
-        }
-      }); 
-    </script>
+
   <!-- HERO SECTION -->
   <section class="min-h-screen bg-cover bg-center flex items-center justify-center hero-bg section-padding">
     <div class="text-center px-6 fade-in">
-      <h2 class="text-8xl font-bold text-white mb-6 drop-shadow-lg"> <span class="text-[#3957EF]">VISCOUNT</span> </h2>
-      <p class="italic text-2xl text-gray-100 mb-10 max-w-2xl mx-auto"> Record, upload, and watch the insights! </p>
+      <h2 class="text-8xl font-bold text-white mb-6 drop-shadow-lg">
+        <span class="text-[#3957EF]">VISCOUNT</span>
+      </h2>
+      <p class="italic text-2xl text-gray-100 mb-10 max-w-2xl mx-auto">Record, upload, and watch the insights!</p>
+      
       <!-- Form Upload -->
-      <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/"
-        class="flex flex-col items-center gap-6">
-        <div class="relative w-full max-w-md"> <input id="fileNameDisplay" readonly placeholder="No file selected"
-            class="w-full px-4 py-3 pr-28 rounded-lg border bg-white text-gray-700 shadow-lg"> <button id="uploadButton"
-            type="button" class="absolute right-4 top-1/2 -translate-y-1/2"> <img id="uploadImg"
-              src="{{ url_for('static', filename='img/uploadvideobtn.png') }}" alt="Upload Video"
-              class="w-[120px] hover:scale-105 transition-transform"> </button> <button id="cancelButton" type="button"
-            class="absolute right-[140px] top-1/2 -translate-y-1/2 hidden bg-white rounded-full shadow-md w-6 h-6 flex items-center justify-center border text-gray-500 hover:text-red-500">
-            ✕ </button> </div> <input id="fileInput" name="video" type="file" accept="video/*" class="hidden"
-          required />
+      <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/" class="flex flex-col items-center gap-6">
+        <div class="relative w-full max-w-md">
+          <input id="fileNameDisplay" readonly placeholder="No file selected" class="w-full px-4 py-3 pr-28 rounded-lg border bg-white text-gray-700 shadow-lg">
+          <button id="uploadButton" type="button" class="absolute right-4 top-1/2 -translate-y-1/2">
+            <img id="uploadImg" src="{{ url_for('static', filename='img/uploadvideobtn.png') }}" alt="Upload Video" class="w-[120px] hover:scale-105 transition-transform">
+          </button>
+          <button id="cancelButton" type="button" class="absolute right-[140px] top-1/2 -translate-y-1/2 hidden bg-white rounded-full shadow-md w-6 h-6 flex items-center justify-center border text-gray-500 hover:text-red-500">
+            ✕
+          </button>
+        </div>
+        <input id="fileInput" name="video" type="file" accept="video/*" class="hidden" required />
       </form>
+      
       <div id="progress-bar" class="hidden w-full max-w-md bg-white rounded-full shadow-inner mt-6">
-        <div id="progress-inner" class="bg-indigo-600 h-6 text-white text-sm leading-none rounded-full text-center"
-          style="width:0%">0%</div>
+        <div id="progress-inner" class="bg-indigo-600 h-6 text-white text-sm leading-none rounded-full text-center" style="width:0%">0%</div>
       </div>
     </div>
   </section>
-  <section id="about"
-    class="min-h-screen bg-cover bg-center flex items-center justify-center relative section-padding about-bg">
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="min-h-screen bg-cover bg-center flex items-center justify-center relative section-padding about-bg">
     <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-12">
       <div class="flex justify-center lg:justify-start w-full lg:w-2/5 slide-in-left">
-        <img src="{{ url_for('static', filename='img/gbr.png') }}" alt="Viscount Logo"
-          class="w-80 lg:w-96 h-auto drop-shadow-lg transition-transform duration-500 hover:scale-105">
+        <img src="{{ url_for('static', filename='img/gbr.png') }}" alt="Viscount Logo" class="w-80 lg:w-96 h-auto drop-shadow-lg transition-transform duration-500 hover:scale-105">
       </div>
-
       <div class="text-center md:text-left w-full md:w-1/2 slide-in-right">
         <h3 class="drop-shadow-lg text-3xl md:text-4xl font-bold text-[#1D75FF] mb-6">
           Know More, Count Better!
@@ -155,38 +157,33 @@
       </div>
     </div>
   </section>
-  <section id="tutorial"
-    class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center section-padding tutorial-bg">
+
+  <!-- TUTORIAL SECTION -->
+  <section id="tutorial" class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center section-padding tutorial-bg">
     <h2 class="text-4xl md:text-5xl font-bold text-[#B134FF] mb-16 text-center drop-shadow-lg fade-in">
       Tutorials
     </h2>
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full mx-auto px-6">
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
+      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">1. Upload Video</h3>
         <p class="text-gray-700">Select the "Upload Video" menu, click "Select File," then press Upload.</p>
       </div>
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
+      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">2. Analysis Process</h3>
-        <p class="text-gray-700">The system will analyze crowd density and flow. This process usually
-          takes a few minutes depending on the video duration.</p>
+        <p class="text-gray-700">The system will analyze crowd density and flow. This process usually takes a few minutes depending on the video duration.</p>
       </div>
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
+      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">3. View Results</h3>
-        <p class="text-gray-700">Open the "Analysis Results" menu to view density visuals, crowd
-          statistics, and summary reports.</p>
+        <p class="text-gray-700">Open the "Analysis Results" menu to view density visuals, crowd statistics, and summary reports.</p>
       </div>
-      <div
-        class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in shadow-lg shadow-purple-500/90">
+      <div class="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-all duration-300 scale-in">
         <h3 class="text-xl font-bold mb-4 text-[#B134FF]">4. Use the Information</h3>
-        <p class="text-gray-700">Use the analysis results to evaluate density, manage areas, and
-          improve visitor safety.</p>
+        <p class="text-gray-700">Use the analysis results to evaluate density, manage areas, and improve visitor safety.</p>
       </div>
     </div>
-  </section> <!-- FOOTER -->
+  </section>
+
+  <!-- FOOTER -->
   <footer class="text-center text-white py-12 bg-cover bg-center border-t border-gray-300 section-padding footer-bg">
     <h2 class="text-5xl font-extrabold tracking-wide mb-6 fade-in">VISCOUNT</h2>
     <p class="mx-auto text-lg text-gray-100 mb-6 fade-in footer-text">
@@ -198,84 +195,128 @@
       <span class="font-semibold">Keisyah</span>.
     </p>
   </footer>
-  
-  <script id="jinjaData" type="text/template"> 
-    {% if job_id %}{{ job_id }}{% endif %} 
-  </script>
+
+  <!-- Script untuk menangani job_id dari Flask -->
+  {% if job_id %}
+  <script id="jinjaData" type="text/template">{{ job_id }}</script>
+  {% else %}
+  <script id="jinjaData" type="text/template"></script>
+  {% endif %}
+
   <script>
-  const jobId = document.getElementById("jinjaData").innerHTML.trim();
+    // Navbar scroll effect
+    window.addEventListener('scroll', function () {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-white/60', 'backdrop-blur-md', 'shadow-md');
+        navbar.classList.remove('bg-transparent', 'backdrop-blur-sm');
+      } else {
+        navbar.classList.add('bg-transparent', 'backdrop-blur-sm');
+        navbar.classList.remove('bg-white/60', 'backdrop-blur-md', 'shadow-md');
+      }
+    });
 
-  const uploadBtn = document.getElementById('uploadButton');
-  const fileInput = document.getElementById('fileInput');
-  const fileNameDisplay = document.getElementById('fileNameDisplay');
-  const cancelBtn = document.getElementById('cancelButton');
-  const uploadImg = document.getElementById('uploadImg');
-  const form = document.getElementById('uploadForm');
-  const progressBar = document.getElementById('progress-bar');
-  const progressInner = document.getElementById('progress-inner');
+    // Intersection Observer untuk animasi
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-  // ====== CEK PROGRESS JOB ======
-  if (jobId !== "") {
-    setInterval(() => {
-      fetch("/progress/" + jobId)
-        .then(r => r.json())
-        .then(data => {
-          if (data.status === "done") {
-            window.location.href = "/result/" + jobId;
-          }
-        });
-    }, 3000);
-  }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
 
-  // ====== LOGIKA UPLOAD ======
-  uploadBtn.addEventListener('click', () => {
-    if (uploadImg.alt === "Upload Video") {
-      fileInput.click();
-    } else if (uploadImg.alt === "Process Video") {
+    // Observe semua elemen dengan class animasi
+    document.addEventListener('DOMContentLoaded', function() {
+      const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+      animatedElements.forEach(el => observer.observe(el));
+    });
+
+    // Upload functionality
+    const uploadBtn = document.getElementById('uploadButton');
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const cancelBtn = document.getElementById('cancelButton');
+    const uploadImg = document.getElementById('uploadImg');
+    const form = document.getElementById('uploadForm');
+    const progressBar = document.getElementById('progress-bar');
+    const progressInner = document.getElementById('progress-inner');
+
+    // ====== CEK PROGRESS JOB ======
+    const jobIdElement = document.getElementById('jinjaData');
+    const jobId = jobIdElement ? jobIdElement.innerHTML.trim() : '';
+
+    if (jobId !== "") {
+      // Tampilkan progress bar jika ada job_id
+      form.classList.add('hidden');
+      progressBar.classList.remove('hidden');
+      progressInner.style.width = "50%";
+      progressInner.textContent = "50%";
+
+      // Polling untuk progress
+      setInterval(() => {
+        fetch("/progress/" + jobId)
+          .then(r => r.json())
+          .then(data => {
+            if (data.status === "done") {
+              window.location.href = "/result/" + jobId;
+            }
+          });
+      }, 3000);
+    }
+
+    // ====== LOGIKA UPLOAD ======
+    uploadBtn.addEventListener('click', () => {
+      if (uploadImg.alt === "Upload Video") {
+        fileInput.click();
+      } else if (uploadImg.alt === "Process Video") {
+        if (fileInput.files.length > 0) {
+          startFakeProgress();
+          setTimeout(() => form.submit(), 600);
+        }
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
       if (fileInput.files.length > 0) {
-        startFakeProgress();
-        setTimeout(() => form.submit(), 600);
+        fileNameDisplay.value = fileInput.files[0].name;
+        cancelBtn.classList.remove('hidden');
+        uploadImg.src = "{{ url_for('static', filename='img/processvideobtn.png') }}";
+        uploadImg.alt = "Process Video";
+      } else {
+        resetUpload();
       }
+    });
+
+    cancelBtn.addEventListener('click', resetUpload);
+
+    function resetUpload() {
+      fileInput.value = '';
+      fileNameDisplay.value = 'No file selected';
+      cancelBtn.classList.add('hidden');
+      uploadImg.src = "{{ url_for('static', filename='img/uploadvideobtn.png') }}";
+      uploadImg.alt = "Upload Video";
     }
-  });
 
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files.length > 0) {
-      fileNameDisplay.value = fileInput.files[0].name;
-      cancelBtn.classList.remove('hidden');
-      uploadImg.src = "{{ url_for('static', filename='img/processvideobtn.png') }}";
-      uploadImg.alt = "Process Video";
-    } else {
-      resetUpload();
+    function startFakeProgress() {
+      form.classList.add('hidden');
+      progressBar.classList.remove('hidden');
+
+      let p = 0;
+      const interval = setInterval(() => {
+        if (p >= 100) {
+          clearInterval(interval);
+          return;
+        }
+        p += 3;
+        progressInner.style.width = p + "%";
+        progressInner.textContent = p + "%";
+      }, 120);
     }
-  });
-
-  cancelBtn.addEventListener('click', resetUpload);
-
-  function resetUpload() {
-    fileInput.value = '';
-    fileNameDisplay.value = 'No file selected';
-    cancelBtn.classList.add('hidden');
-    uploadImg.src = "{{ url_for('static', filename='img/uploadvideobtn.png') }}";
-    uploadImg.alt = "Upload Video";
-  }
-
-  function startFakeProgress() {
-    form.classList.add('hidden');
-    progressBar.classList.remove('hidden');
-
-    let p = 0;
-    const interval = setInterval(() => {
-      if (p >= 100) {
-        clearInterval(interval);
-        return;
-      }
-      p += 3;
-      progressInner.style.width = p + "%";
-      progressInner.textContent = p + "%";
-    }, 120);
-  }
   </script>
 </body>
-
 </html>
